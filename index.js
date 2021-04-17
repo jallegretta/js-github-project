@@ -1,35 +1,34 @@
 window.addEventListener('DOMContentLoaded', (event) => {
-    console.log('DOM fully loaded and parsed');
-
-    document.getElementById("myAnchor").addEventListener("click", function(event){
-        event.preventDefault()
-      });
-    const searchBtn = document.querySelector("#github-form > input[type=submit]:nth-child(2)");
-    searchBtn.addEventListener('click', searchForUser)
-            {searchForUser.preventDefault();}
-
-    function searchForUser(){
-    let user = document.getElementById('search').value 
-    fetch('https://api.github.com/search/users?q='+user, () => {
-            console.log(response)
+    
+    function fetchGithubByValue(value){
+        fetch(`https://api.github.com/search/users?q=${value}`, {
+            headers: {
+                    "Accept": "application/vnd.github.v3+json"
+            }
         })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-        let newLi = document.createElement("li");
-        newLi.innerHTML = user;
-        document.getElementById("user-list").appendChild(newLi);  
+        .then(res => res.json())
+        .then(json => json.items.forEach((user) => {
+            appendLi(createLi(user))
+            
+        }))
     }
 
-    function searchForRepo(){
-        let user = document.getElementById('search').value 
-        fetch('https://api.github.com/users/'+user+'/repos', () => {
-            console.log(response)
-        })
-        .then((response) => response.json())
-        .then((json) => console.log(json));
-        let newLi = document.createElement("li");
-        newLi.innerHTML = user;
-        document.getElementById("repo-list").appendChild(newLi);  
+    const submitBtn = document.getElementById('submit-button')
+    const searchbox = document.getElementById('search')
+    submitBtn.addEventListener('click' , (e) => {
+        e.preventDefault()
+        fetchGithubByValue(seachBox.value)
+    })
+
+    const userList = document.getElementById('user-list')
+
+    function createLi(user){
+        document.createElement(li)
     }
 
+    const userLi = document.getElementById('user-list li')
+
+    function appendLi(li){
+        userList.append(li)
+    }
 });

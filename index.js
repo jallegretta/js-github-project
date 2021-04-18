@@ -9,17 +9,14 @@ window.addEventListener('DOMContentLoaded', (event) => {
         .then(res => res.json())
         .then(json => json.items.forEach((user) => {
             appendLi(createLi(user))
-            
         }))
     }
-
     const submitBtn = document.getElementById('submit-button')
     const searchbox = document.getElementById('search')
     submitBtn.addEventListener('click' , (e) => {
         e.preventDefault()
         fetchGithubByValue(seachBox.value)
     })
-
     const userList = document.getElementById('user-list')
 
     function createLi(user){
